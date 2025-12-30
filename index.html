@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gothwad Apps Login</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* CSS Variables for Light/Dark Mode */
+        :root {
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --text-color: #333;
+            --sub-text: #666;
+            --input-border: #e1e1e1;
+            --input-bg: #fff;
+            --input-text: #333;
+            --shadow: rgba(0, 0, 0, 0.2);
+        }
+
+        /* Dark Mode Variables */
+        body.dark-mode {
+            --bg-gradient: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            --card-bg: rgba(30, 30, 40, 0.95);
+            --text-color: #fff;
+            --sub-text: #bbb;
+            --input-border: #444;
+            --input-bg: #2b2b3b;
+            --input-text: #fff;
+            --shadow: rgba(0, 0, 0, 0.6);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            transition: background 0.4s ease, color 0.4s ease; /* Smooth transition for theme change */
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: var(--bg-gradient);
+            padding: 20px;
+        }
+
+        /* Top Header Bar */
+        .top-bar {
+            position: absolute;
+            top: 20px;
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .brand-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: 1px;
+        }
+
+        /* Theme Toggle Switch */
+        .theme-switch-wrapper {
+            display: flex;
+            align-items: center;
+        }
+
+        .theme-switch {
+            display: inline-block;
+            height: 34px;
+            position: relative;
+            width: 60px;
+        }
+
+        .theme-switch input {
+            display: none;
+        }
+
+        .slider {
+            background-color: #ccc;
+            bottom: 0;
+            cursor: pointer;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transition: .4s;
+            border-radius: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 5px;
+        }
+
+        .slider:before {
+            background-color: white;
+            bottom: 4px;
+            content: "";
+            height: 26px;
+            left: 4px;
+            position: absolute;
+            transition: .4s;
+            width: 26px;
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .slider .fa-sun { color: #f39c12; margin-left: 4px; font-size: 14px; }
+        .slider .fa-moon { color: #f1c40f; margin-right: 4px; font-size: 14px; }
+
+        /* Main Card */
+        .container {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px var(--shadow);
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        h2 {
+            color: var(--text-color);
+            margin-bottom: 10px;
+        }
+
+        p.subtitle {
+            color: var(--sub-text);
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        /* Form Styling */
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-color);
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            background: var(--input-bg);
+            border: 2px solid var(--input-border);
+            color: var(--input-text);
+            border-radius: 10px;
+            outline: none;
+            transition: 0.3s;
+            font-size: 15px;
+        }
+
+        .input-group input:focus {
+            border-color: #764ba2;
+        }
+
+        .action-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(118, 75, 162, 0.4);
+        }
+
+        /* Divider & Social */
+        .divider {
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 100%;
+            height: 1px;
+            background: var(--input-border);
+        }
+
+        .divider span {
+            background: var(--card-bg);
+            padding: 0 10px;
+            color: var(--sub-text);
+            font-size: 13px;
+            position: relative;
+            z-index: 1;
+            transition: background 0.4s ease;
+        }
+
+        .social-login {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .social-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 1px solid var(--input-border);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.3s;
+            background: var(--input-bg);
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        /* Social Colors */
+        .google { color: #DB4437; }
+        .facebook { color: #4267B2; }
+        .github { color: #333; }
+        .phone { color: #25D366; }
+        
+        body.dark-mode .github { color: #fff; }
+
+        .google:hover { background: #DB4437; color: white; border-color: #DB4437; }
+        .facebook:hover { background: #4267B2; color: white; border-color: #4267B2; }
+        .github:hover { background: #333; color: white; border-color: #333; }
+        .phone:hover { background: #25D366; color: white; border-color: #25D366; }
+
+        body.dark-mode .github:hover { background: #fff; color: #333; }
+
+        /* Switch Text */
+        .switch-text {
+            margin-top: 15px;
+            font-size: 14px;
+            color: var(--sub-text);
+        }
+
+        .switch-text a {
+            color: #764ba2;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        body.dark-mode .switch-text a {
+            color: #8fa1ff;
+        }
+
+        /* Utility to hide/show forms */
+        .form-box {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .form-box.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Header with Name and Toggle -->
+    <div class="top-bar">
+        <div class="brand-name">Gothwad Apps</div>
+        <div class="theme-switch-wrapper">
+            <label class="theme-switch" for="checkbox">
+                <input type="checkbox" id="checkbox">
+                <div class="slider round">
+                    <i class="fas fa-sun"></i>
+                    <i class="fas fa-moon"></i>
+                </div>
+            </label>
+        </div>
+    </div>
+
+    <div class="container">
+        
+        <!-- LOGIN FORM -->
+        <div id="login-form" class="form-box active">
+            <h2>Welcome Back</h2>
+            <p class="subtitle">Login to continue using our app</p>
+
+            <form>
+                <div class="input-group">
+                    <label>Username or Gmail</label>
+                    <input type="text" placeholder="Enter username or mail" required>
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" placeholder="Enter password" required>
+                </div>
+                <button type="submit" class="action-btn">Log In</button>
+            </form>
+
+            <div class="divider">
+                <span>Or login with</span>
+            </div>
+
+            <div class="social-login">
+                <a href="#" class="social-btn phone" title="Phone"><i class="fa-solid fa-phone"></i></a>
+                <a href="#" class="social-btn google" title="Google"><i class="fa-brands fa-google"></i></a>
+                <a href="#" class="social-btn facebook" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" class="social-btn github" title="GitHub"><i class="fa-brands fa-github"></i></a>
+            </div>
+
+            <div class="switch-text">
+                Don't have an account? <a onclick="showSignup()">Sign up</a>
+            </div>
+        </div>
+
+        <!-- SIGN UP FORM -->
+        <div id="signup-form" class="form-box">
+            <h2>Create Account</h2>
+            <p class="subtitle">Join Gothwad Apps today!</p>
+
+            <form>
+                <div class="input-group">
+                    <label>Gmail</label>
+                    <input type="email" placeholder="Enter your gmail" required>
+                </div>
+                <div class="input-group">
+                    <label>Username</label>
+                    <input type="text" placeholder="Choose a username" required>
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" placeholder="Create password" required>
+                </div>
+                <div class="input-group">
+                    <label>Confirm Password</label>
+                    <input type="password" placeholder="Confirm password" required>
+                </div>
+                <button type="submit" class="action-btn">Create Account</button>
+            </form>
+
+            <div class="switch-text">
+                Already have an account? <a onclick="showLogin()">Log In</a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Toggle Theme Logic
+        const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+        const body = document.body;
+
+        toggleSwitch.addEventListener('change', function(e) {
+            if (e.target.checked) {
+                body.classList.add('dark-mode');
+            } else {
+                body.classList.remove('dark-mode');
+            }
+        });
+
+        // Switch Form Logic
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+
+        function showSignup() {
+            loginForm.classList.remove('active');
+            signupForm.classList.add('active');
+        }
+
+        function showLogin() {
+            signupForm.classList.remove('active');
+            loginForm.classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
