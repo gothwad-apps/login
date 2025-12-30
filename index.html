@@ -3,35 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gothwad Apps Login</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <!-- Font Awesome Icons -->
+    <title>Gothwad Apps - Mobile Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* CSS Variables for Light/Dark Mode */
         :root {
-            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --card-bg: rgba(255, 255, 255, 0.95);
-            --text-color: #333;
-            --sub-text: #666;
-            --input-border: #e1e1e1;
-            --input-bg: #fff;
-            --input-text: #333;
-            --shadow: rgba(0, 0, 0, 0.2);
+            /* Light Mode Colors */
+            --bg-color: #f0f2f5;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --text-main: #1a1a1a;
+            --text-sec: #666;
+            --primary: #4e54c8;
+            --secondary: #8f94fb;
+            --input-bg: rgba(255, 255, 255, 0.6);
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --blob-1: #ff9a9e;
+            --blob-2: #a18cd1;
         }
 
-        /* Dark Mode Variables */
         body.dark-mode {
-            --bg-gradient: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
-            --card-bg: rgba(30, 30, 40, 0.95);
-            --text-color: #fff;
-            --sub-text: #bbb;
-            --input-border: #444;
-            --input-bg: #2b2b3b;
-            --input-text: #fff;
-            --shadow: rgba(0, 0, 0, 0.6);
+            /* Dark Mode Colors */
+            --bg-color: #0f172a;
+            --glass-bg: rgba(30, 41, 59, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-sec: #94a3b8;
+            --primary: #6366f1;
+            --secondary: #a855f7;
+            --input-bg: rgba(15, 23, 42, 0.6);
+            --shadow-color: rgba(0, 0, 0, 0.5);
+            --blob-1: #4338ca;
+            --blob-2: #c026d3;
         }
 
         * {
@@ -39,379 +43,408 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
-            transition: background 0.4s ease, color 0.4s ease; /* Smooth transition for theme change */
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
         }
 
         body {
+            background-color: var(--bg-color);
+            min-height: 100vh;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            background: var(--bg-gradient);
-            padding: 20px;
+            position: relative;
+            overflow: hidden; /* Scroll hatane ke liye */
         }
 
-        /* Top Header Bar */
+        /* Animated Background Blobs - Thoda Chota kiya */
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(50px);
+            z-index: 0;
+            opacity: 0.6;
+            animation: move 10s infinite alternate;
+        }
+
+        .blob-1 {
+            width: 250px;
+            height: 250px;
+            background: var(--blob-1);
+            top: -40px;
+            left: -40px;
+        }
+
+        .blob-2 {
+            width: 250px;
+            height: 250px;
+            background: var(--blob-2);
+            bottom: -40px;
+            right: -40px;
+            animation-delay: -5s;
+        }
+
+        @keyframes move {
+            from { transform: translate(0, 0) scale(1); }
+            to { transform: translate(20px, 30px) scale(1.05); }
+        }
+
+        /* Top Bar - Compact */
         .top-bar {
             position: absolute;
-            top: 20px;
-            width: 100%;
-            max-width: 1200px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-        }
-
-        .brand-name {
-            font-size: 24px;
-            font-weight: 700;
-            color: white;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-            letter-spacing: 1px;
-        }
-
-        /* Theme Toggle Switch */
-        .theme-switch-wrapper {
-            display: flex;
-            align-items: center;
-        }
-
-        .theme-switch {
-            display: inline-block;
-            height: 34px;
-            position: relative;
-            width: 60px;
-        }
-
-        .theme-switch input {
-            display: none;
-        }
-
-        .slider {
-            background-color: #ccc;
-            bottom: 0;
-            cursor: pointer;
-            left: 0;
-            position: absolute;
-            right: 0;
             top: 0;
-            transition: .4s;
-            border-radius: 34px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 5px;
-        }
-
-        .slider:before {
-            background-color: white;
-            bottom: 4px;
-            content: "";
-            height: 26px;
-            left: 4px;
-            position: absolute;
-            transition: .4s;
-            width: 26px;
-            border-radius: 50%;
-            z-index: 2;
-        }
-
-        input:checked + .slider {
-            background-color: #2196F3;
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(26px);
-        }
-
-        .slider .fa-sun { color: #f39c12; margin-left: 4px; font-size: 14px; }
-        .slider .fa-moon { color: #f1c40f; margin-right: 4px; font-size: 14px; }
-
-        /* Main Card */
-        .container {
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px var(--shadow);
+            left: 0;
             width: 100%;
-            max-width: 420px;
-            text-align: center;
+            padding: 15px 20px; /* Padding kam ki */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .brand {
+            font-size: 20px; /* Font size thoda kam */
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Toggle Switch */
+        .theme-toggle {
+            cursor: pointer;
+            width: 45px; /* Size kam */
+            height: 24px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 20px;
             position: relative;
+            border: 1px solid var(--glass-border);
+        }
+
+        body.dark-mode .theme-toggle { background: rgba(255,255,255,0.1); }
+
+        .theme-toggle::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 18px;
+            height: 18px;
+            background: #fff;
+            border-radius: 50%;
+            transition: 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        body.dark-mode .theme-toggle::after {
+            left: 23px;
+            background: var(--primary);
+        }
+
+        /* Glass Card - Compact & Mobile Size */
+        .card {
+            position: relative;
+            width: 90%; /* Mobile ke liye 90% width */
+            max-width: 340px; /* Max width kam kar di */
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 25px; /* Padding kam ki */
+            box-shadow: 0 20px 40px var(--shadow-color);
+            z-index: 1;
             overflow: hidden;
+            animation: slideUp 0.6s ease-out;
+            margin-top: 40px; /* Header se thoda gap */
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         h2 {
-            color: var(--text-color);
-            margin-bottom: 10px;
+            color: var(--text-main);
+            font-weight: 700;
+            font-size: 22px; /* Font size adjust */
+            margin-bottom: 5px;
+            text-align: center;
         }
 
-        p.subtitle {
-            color: var(--sub-text);
-            font-size: 14px;
-            margin-bottom: 25px;
+        .subtitle {
+            color: var(--text-sec);
+            font-size: 12px;
+            margin-bottom: 20px;
+            text-align: center;
         }
 
-        /* Form Styling */
+        /* Inputs - Compact Height */
         .input-group {
-            margin-bottom: 15px;
-            text-align: left;
+            margin-bottom: 12px; /* Gap kam kiya */
         }
 
         .input-group label {
             display: block;
+            color: var(--text-main);
+            font-size: 12px;
+            font-weight: 600;
             margin-bottom: 5px;
-            color: var(--text-color);
-            font-size: 13px;
-            font-weight: 500;
+            margin-left: 5px;
         }
 
-        .input-group input {
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-sec);
+            font-size: 13px;
+        }
+
+        .input-wrapper input {
             width: 100%;
-            padding: 12px 15px;
+            padding: 10px 15px 10px 38px; /* Padding kam ki */
             background: var(--input-bg);
-            border: 2px solid var(--input-border);
-            color: var(--input-text);
+            border: 1px solid transparent;
             border-radius: 10px;
+            color: var(--text-main);
+            font-size: 13px;
             outline: none;
             transition: 0.3s;
-            font-size: 15px;
         }
 
-        .input-group input:focus {
-            border-color: #764ba2;
+        .input-wrapper input:focus {
+            background: transparent;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.1);
         }
 
-        .action-btn {
+        /* Buttons - Slimmer */
+        .btn-primary {
             width: 100%;
-            padding: 12px;
-            background: linear-gradient(to right, #667eea, #764ba2);
-            color: white;
+            padding: 10px; /* Button patla kiya */
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             border: none;
             border-radius: 10px;
-            font-size: 16px;
+            color: white;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
+            margin-top: 5px;
             transition: 0.3s;
-            margin-top: 10px;
+            box-shadow: 0 8px 15px -5px var(--primary);
         }
 
-        .action-btn:hover {
+        .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(118, 75, 162, 0.4);
+            box-shadow: 0 12px 20px -10px var(--secondary);
         }
 
-        /* Divider & Social */
+        /* Divider */
         .divider {
-            margin: 20px 0;
-            position: relative;
+            margin: 15px 0; /* Gap kam */
+            display: flex;
+            align-items: center;
+            color: var(--text-sec);
+            font-size: 11px;
         }
 
-        .divider::before {
+        .divider::before, .divider::after {
             content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            width: 100%;
+            flex: 1;
             height: 1px;
-            background: var(--input-border);
+            background: var(--glass-border);
         }
 
-        .divider span {
-            background: var(--card-bg);
-            padding: 0 10px;
-            color: var(--sub-text);
-            font-size: 13px;
-            position: relative;
-            z-index: 1;
-            transition: background 0.4s ease;
-        }
+        .divider span { margin: 0 8px; }
 
-        .social-login {
+        /* Social Icons - Smaller */
+        .socials {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 12px;
         }
 
         .social-btn {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            border: 1px solid var(--input-border);
+            width: 38px; /* Size kam */
+            height: 38px;
+            border-radius: 10px;
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
+            background: var(--input-bg);
+            color: var(--text-main);
+            font-size: 16px;
             cursor: pointer;
             transition: 0.3s;
-            background: var(--input-bg);
+            border: 1px solid transparent;
             text-decoration: none;
-            font-size: 18px;
         }
 
         .social-btn:hover {
-            transform: translateY(-3px);
+            transform: translateY(-2px);
+            background: #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        /* Social Colors */
-        .google { color: #DB4437; }
-        .facebook { color: #4267B2; }
-        .github { color: #333; }
-        .phone { color: #25D366; }
-        
-        body.dark-mode .github { color: #fff; }
+        /* Brand Colors */
+        .social-btn.google:hover { color: #DB4437; border-color: #DB4437; }
+        .social-btn.facebook:hover { color: #4267B2; border-color: #4267B2; }
+        .social-btn.github:hover { color: #333; border-color: #333; }
+        .social-btn.phone:hover { color: #25D366; border-color: #25D366; }
 
-        .google:hover { background: #DB4437; color: white; border-color: #DB4437; }
-        .facebook:hover { background: #4267B2; color: white; border-color: #4267B2; }
-        .github:hover { background: #333; color: white; border-color: #333; }
-        .phone:hover { background: #25D366; color: white; border-color: #25D366; }
-
-        body.dark-mode .github:hover { background: #fff; color: #333; }
-
-        /* Switch Text */
-        .switch-text {
+        /* Toggle Text */
+        .toggle-form {
+            text-align: center;
             margin-top: 15px;
-            font-size: 14px;
-            color: var(--sub-text);
+            font-size: 12px;
+            color: var(--text-sec);
         }
 
-        .switch-text a {
-            color: #764ba2;
-            text-decoration: none;
-            font-weight: 600;
+        .toggle-form b {
+            color: var(--primary);
             cursor: pointer;
+            font-weight: 600;
         }
         
-        body.dark-mode .switch-text a {
-            color: #8fa1ff;
-        }
+        .toggle-form b:hover { text-decoration: underline; }
 
-        /* Utility to hide/show forms */
-        .form-box {
-            display: none;
-            animation: fadeIn 0.5s;
-        }
-        
-        .form-box.active {
-            display: block;
-        }
+        /* Logic to hide forms */
+        .form-section { display: none; }
+        .form-section.active { display: block; animation: fadeIn 0.4s ease-in-out; }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
         }
-
     </style>
 </head>
 <body>
 
-    <!-- Header with Name and Toggle -->
+    <!-- Background Blobs -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <!-- Header -->
     <div class="top-bar">
-        <div class="brand-name">Gothwad Apps</div>
-        <div class="theme-switch-wrapper">
-            <label class="theme-switch" for="checkbox">
-                <input type="checkbox" id="checkbox">
-                <div class="slider round">
-                    <i class="fas fa-sun"></i>
-                    <i class="fas fa-moon"></i>
-                </div>
-            </label>
-        </div>
+        <div class="brand">Gothwad Apps</div>
+        <div class="theme-toggle" onclick="toggleTheme()"></div>
     </div>
 
-    <div class="container">
+    <!-- Main Card -->
+    <div class="card">
         
         <!-- LOGIN FORM -->
-        <div id="login-form" class="form-box active">
+        <div id="login-section" class="form-section active">
             <h2>Welcome Back</h2>
-            <p class="subtitle">Login to continue using our app</p>
+            <p class="subtitle">Enter details to sign in.</p>
 
             <form>
                 <div class="input-group">
                     <label>Username or Gmail</label>
-                    <input type="text" placeholder="Enter username or mail" required>
+                    <div class="input-wrapper">
+                        <i class="fa-regular fa-envelope"></i>
+                        <input type="text" placeholder="john@example.com" required>
+                    </div>
                 </div>
+
                 <div class="input-group">
                     <label>Password</label>
-                    <input type="password" placeholder="Enter password" required>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" placeholder="••••••••" required>
+                    </div>
                 </div>
-                <button type="submit" class="action-btn">Log In</button>
+
+                <button type="submit" class="btn-primary">Sign In</button>
             </form>
 
             <div class="divider">
-                <span>Or login with</span>
+                <span>Or continue with</span>
             </div>
 
-            <div class="social-login">
-                <a href="#" class="social-btn phone" title="Phone"><i class="fa-solid fa-phone"></i></a>
-                <a href="#" class="social-btn google" title="Google"><i class="fa-brands fa-google"></i></a>
-                <a href="#" class="social-btn facebook" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-                <a href="#" class="social-btn github" title="GitHub"><i class="fa-brands fa-github"></i></a>
+            <div class="socials">
+                <a href="#" class="social-btn phone"><i class="fa-solid fa-phone"></i></a>
+                <a href="#" class="social-btn google"><i class="fa-brands fa-google"></i></a>
+                <a href="#" class="social-btn facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" class="social-btn github"><i class="fa-brands fa-github"></i></a>
             </div>
 
-            <div class="switch-text">
-                Don't have an account? <a onclick="showSignup()">Sign up</a>
+            <div class="toggle-form">
+                New here? <b onclick="switchForm('signup')">Sign up</b>
             </div>
         </div>
 
-        <!-- SIGN UP FORM -->
-        <div id="signup-form" class="form-box">
+        <!-- SIGNUP FORM -->
+        <div id="signup-section" class="form-section">
             <h2>Create Account</h2>
-            <p class="subtitle">Join Gothwad Apps today!</p>
+            <p class="subtitle">Join Gothwad Apps now.</p>
 
             <form>
                 <div class="input-group">
                     <label>Gmail</label>
-                    <input type="email" placeholder="Enter your gmail" required>
+                    <div class="input-wrapper">
+                        <i class="fa-regular fa-envelope"></i>
+                        <input type="email" placeholder="john@mail.com" required>
+                    </div>
                 </div>
+
                 <div class="input-group">
                     <label>Username</label>
-                    <input type="text" placeholder="Choose a username" required>
+                    <div class="input-wrapper">
+                        <i class="fa-regular fa-user"></i>
+                        <input type="text" placeholder="username" required>
+                    </div>
                 </div>
+
                 <div class="input-group">
                     <label>Password</label>
-                    <input type="password" placeholder="Create password" required>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" placeholder="Password" required>
+                    </div>
                 </div>
+
                 <div class="input-group">
-                    <label>Confirm Password</label>
-                    <input type="password" placeholder="Confirm password" required>
+                    <label>Confirm</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-check-double"></i>
+                        <input type="password" placeholder="Confirm" required>
+                    </div>
                 </div>
-                <button type="submit" class="action-btn">Create Account</button>
+
+                <button type="submit" class="btn-primary">Create Account</button>
             </form>
 
-            <div class="switch-text">
-                Already have an account? <a onclick="showLogin()">Log In</a>
+            <div class="toggle-form">
+                Has account? <b onclick="switchForm('login')">Log In</b>
             </div>
         </div>
 
     </div>
 
     <script>
-        // Toggle Theme Logic
-        const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
-        const body = document.body;
-
-        toggleSwitch.addEventListener('change', function(e) {
-            if (e.target.checked) {
-                body.classList.add('dark-mode');
-            } else {
-                body.classList.remove('dark-mode');
-            }
-        });
-
-        // Switch Form Logic
-        const loginForm = document.getElementById('login-form');
-        const signupForm = document.getElementById('signup-form');
-
-        function showSignup() {
-            loginForm.classList.remove('active');
-            signupForm.classList.add('active');
+        // Theme Toggle
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
         }
 
-        function showLogin() {
-            signupForm.classList.remove('active');
-            loginForm.classList.add('active');
+        // Switch Forms
+        function switchForm(type) {
+            const login = document.getElementById('login-section');
+            const signup = document.getElementById('signup-section');
+
+            if (type === 'signup') {
+                login.classList.remove('active');
+                setTimeout(() => signup.classList.add('active'), 50); 
+            } else {
+                signup.classList.remove('active');
+                setTimeout(() => login.classList.add('active'), 50);
+            }
         }
     </script>
 
